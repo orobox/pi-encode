@@ -34,6 +34,17 @@ def mod_search_digits(target: list, digits: str) -> int:
         if ok:
             return i
 
+import itertools
+def get_all_possible_encodings(msg: list) -> iter:
+    char_set = []
+    for char in msg:
+        alt_chars = [char + (i * 26) for i in range(4) if char + (i * 26) < 100]
+        char_set.append(alt_chars)
+    for encoding in itertools.product(*char_set):
+        yield "".join([f"{i:02}" for i in encoding])
+
+print(list(get_all_possible_encodings(encode_message("jo"))))
+
 def main(msg: str, batch_size: int = 1000):
     enc_msg = encode_message(msg)
     overlap = 2 * len(enc_msg) - 1
@@ -51,10 +62,10 @@ def main(msg: str, batch_size: int = 1000):
         print(f"Checked up to digit {start}...")
 
 # print(fetch_pi_digits(0, 1000)[-50:])
-message = "Loveumom"
+message = "JoyHempel"
 enc = encode_message(message)
-result = main(message)
+# result = main(message)
 raw_enc = "".join([f"{i:02}" for i in enc])
 print(f"Encoded message is {raw_enc}")
-print(f"Found at {result}")
-print(f"Digits are {fetch_pi_digits(result, len(raw_enc))}")
+# print(f"Found at {result}")
+# print(f"Digits are {fetch_pi_digits(result, len(raw_enc))}")
